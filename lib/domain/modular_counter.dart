@@ -1,16 +1,16 @@
 import 'package:flutter_oop_recture/domain/counter_base.dart';
 
-/// 法をもつカウンターの抽象クラス
-/// コンストラクタで初期化されるフィールド modularを持ち
-/// modularの法を持ったカウンターを作成する
+/// Abstract class for counters with modulus
+/// has a field modular initialized in the constructor
+/// Create a counter with modular modulus
 abstract class ModularCounter extends CounterBase {
   ModularCounter(this.modular);
   final int modular;
 
-  /// ModularCounterにはリセット機能を実装するよう強制する
-  /// スーパークラスのcounterを用いて実装しておく
+  /// Force ModularCounter to implement reset functionality
+  /// Implemented using the superclass counter
   void reset() {
-    // 明示的にsuper.counterと書かなくとも、スーパークラスのフィールドが使える
+    // You can use superclass fields without explicitly writing super.counter    if (counter >= modular) {
     if (counter >= modular) {
       counter = 0;
     }

@@ -11,16 +11,16 @@ class CounterModel extends ChangeNotifier {
 
   final StorageRepositoryBase _storageRepository;
 
-  // 本来あまり望ましくないが、初期化処理の中で_counterを初期化するので
-  // _counterから安全呼び出しでcountの値を読み込んでいる
+  // Originally not very desirable, but _counter is initialized in the initialization process
+  // reading the value of count with a safe call from _counter
   int get count => _counter?.counter;
   bool isChangedHourCounter = true;
   CounterBase _counter;
   CounterType _counterType;
 
-  /// このmodelの初期化処理
-  /// shared_preferencesに保存されているCounterのタイプがあるかどうかを判断して
-  /// あればそのCounterを代入し、なければHourCounterを代入する
+  /// Initialize this model
+  /// Determine if there is a counter type stored in shared_preferences
+  /// If so, assign that Counter, else assign HourCounter
   Future<void> init() async {
     final bool isExistKey = await _storageRepository.isExistKey(key_counter);
     if (isExistKey) {
@@ -46,16 +46,16 @@ class CounterModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Counterのincrementメソッドを呼ぶ
-  /// counterにはスーパークラスにincrementが定義されているので
-  /// SimpleCounterでもHourCounterでもincrementを呼び出すことが出来る
+  /// Call Counter's increment method
+  /// Since increment is defined in the superclass of counter
+  /// Both SimpleCounter and HourCounter can call increment
   void increment() {
     _counter.increment();
     notifyListeners();
   }
 
-  /// SwitchがtrueかfalseかでCounterを切り替えて
-  /// 同時にshared_preferencesに保存する
+  /// Switch Counter depending on whether Switch is true or false
+  /// save to shared_preferences at the same time
   Future<void> switchCounter() async {
     if (isChangedHourCounter) {
       _counter = SimpleCounter();
